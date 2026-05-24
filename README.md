@@ -1,6 +1,6 @@
 # Hevy Central DB Logging Skill
 
-A Hermes Agent skill for setting up an open-source Hevy App fitness logging pipeline from the Hevy API to a central PostgreSQL-compatible database.
+A cross-client Agent Skill for setting up an open-source Hevy App fitness logging pipeline from the Hevy API to a central PostgreSQL-compatible database.
 
 ## What this skill covers
 
@@ -14,28 +14,35 @@ A Hermes Agent skill for setting up an open-source Hevy App fitness logging pipe
 - Cron/systemd/Hermes no-agent scheduling
 - Verification SQL and agent completion contract
 
+## Install as an Agent Skill
+
+Agent Skills expect a folder containing `SKILL.md`, and the folder name must match the `name` field: `hevy-central-db-logging`.
+
+For VS Code / Copilot / generic Agent Skills clients:
+
+```bash
+mkdir -p .agents/skills
+git clone https://github.com/agent-cortex/hevy-central-db-logging.git .agents/skills/hevy-central-db-logging
+```
+
+Then open the project and run `/skills` in agent mode to confirm `hevy-central-db-logging` appears.
+
 ## Install in Hermes
 
 ```bash
-hermes skills install https://raw.githubusercontent.com/agent-cortex/hevy-central-db-logging-skill/main/SKILL.md
+hermes skills install https://raw.githubusercontent.com/agent-cortex/hevy-central-db-logging/main/SKILL.md
 ```
 
-Or copy this repo's `SKILL.md` directory into your Hermes skills folder:
+Or copy the full folder manually:
 
 ```bash
 mkdir -p ~/.hermes/skills/fitness/hevy-central-db-logging
-cp -R SKILL.md references templates ~/.hermes/skills/fitness/hevy-central-db-logging/
+cp -R SKILL.md references assets templates ~/.hermes/skills/fitness/hevy-central-db-logging/
 ```
 
 ## Use
 
-Load the skill in Hermes:
-
-```text
-/skill hevy-central-db-logging
-```
-
-Then ask:
+Load the skill and ask:
 
 ```text
 Set up Hevy App sync to my central Postgres DB.
@@ -44,7 +51,7 @@ Set up Hevy App sync to my central Postgres DB.
 For delegating to another agent, use:
 
 ```text
-templates/agent-prompt.md
+assets/agent-prompt.md
 ```
 
 ## Requirements
@@ -56,13 +63,17 @@ templates/agent-prompt.md
 
 ## Security note
 
-Fitness data is sensitive. Do not commit `.env`, database URLs, API keys, workout exports, or raw personal logs.
+Fitness data is sensitive. Do not commit `.env`, database URLs, API keys, workout exports, raw personal logs, or generated JSONL data.
 
 ## Files
 
-- `SKILL.md` — main Hermes skill
+- `SKILL.md` — main skill, kept concise for progressive disclosure
 - `references/hevy-openapi-endpoints.md` — endpoint reference extracted from Hevy Swagger docs
-- `templates/agent-prompt.md` — copy/paste setup prompt for another agent
+- `references/postgres-schema.sql` — schema and analytics view
+- `references/hevy-sync-implementation.md` — starter sync script
+- `references/verification-queries.sql` — SQL checks after setup
+- `assets/agent-prompt.md` — copy/paste setup prompt for another agent
+- `templates/agent-prompt.md` — same prompt retained for Hermes template compatibility
 
 ## License
 
