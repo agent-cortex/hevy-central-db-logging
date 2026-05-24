@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+*.log
+*.sqlite
+*.db
+__pycache__/
+.pytest_cache/
+.venv/
+workout*.csv
+hevy_export*.csv
+*.jsonl
